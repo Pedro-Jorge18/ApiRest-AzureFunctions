@@ -18,7 +18,8 @@
 ## Quick Start
 
 
-To quickly set up the project, ensure WSL, Node.js, Podman, and Azure Functions Core Tools are installed. Then, complete the following steps:
+To quickly set up the project, ensure WSL, Node.js, Podman, and Azure Functions Core Tools are installed.
+Then, complete the following steps:
 
 ### 1. Clone the Repository
 
@@ -63,16 +64,22 @@ podman-compose up --build -d
    ```
 3. Restore the `.env` file to `DB_HOST=postgres-db` after migrations are complete.
 
-### 7. Restart the API
+### 7. Start Azure Functions Locally
+
+```bash
+func start
+```
+
+### 8. Restart the API
 
 ```bash
 podman-compose restart api-functions
 ```
 
-### 8. Test the API
+### 9. Test the API
 
 ```bash
-curl http://localhost:8080/api/messages
+curl http://localhost:7071/api/messages
 ```
 
 ---
@@ -311,6 +318,45 @@ Remove volumes:
 ```bash
 podman-compose down -v
 ```
+
+## Database Commands
+
+Install PostgreSQL Client:
+```bash
+sudo apt install postgresql-client  
+```
+
+Connect to the Database:
+```bash
+psql -h localhost -U <username> -d <databasename>
+```
+
+List Databases:
+```sql
+\l
+```
+
+List Tables:
+```sql
+\dt
+```
+
+View Table Structure:
+```sql
+\d name_of_the_table
+```
+
+View Table Content:
+```sql
+SELECT * FROM name_of_the_table;
+```
+
+Exit psql
+```sql
+\q
+```
+
+
 
 
 
