@@ -9,7 +9,7 @@ describe('Message Entity', () => {
     });
 
     //Check that fields can be assigned
-    it('should allow setting message_text', () => {
+    it('should allow setting message text', () => {
         const message = new Message();
         message.message_text = 'Hello World!';
         expect(message.message_text).toBe('Hello World!');
@@ -39,10 +39,10 @@ describe('Message Validation Logic', () => {
     // Simple validation function
     function validateMessageText(text: string | undefined | null): { valid: boolean; error?: string } {
         if (!text || text.trim() === '') {
-            return { valid: false, error: 'message_text is required and cannot be empty.' };
+            return { valid: false, error: 'message text is required and cannot be empty.' };
         }
         if (text.length > 255) {
-            return { valid: false, error: 'message_text cannot exceed 255 characters.' };
+            return { valid: false, error: 'message cannot exceed 255 characters.' };
         }
         return { valid: true };
     }
@@ -51,7 +51,7 @@ describe('Message Validation Logic', () => {
     it('should reject empty message', () => {
         const result = validateMessageText('');
         expect(result.valid).toBe(false);
-        expect(result.error).toBe('message is required and cannot be empty.');
+        expect(result.error).toBe('message text is required and cannot be empty.');
     });
 
     //Validate null message
