@@ -21,6 +21,15 @@ export async function GetMessageById(request: HttpRequest, context: InvocationCo
         const dataSource = await initializeDatabase();
         const messageRepository = dataSource.getRepository(Message);
 
+        // Check if the table is empty
+        const totalMessages = await messageRepository.count();
+        if (totalMessages === 0) {
+            return {
+                status: 200,
+                jsonBody: { message: 'No messages found in the database.' }
+            };
+        }
+
         // Find the message by ID
         const message = await messageRepository.findOneBy({ id });
 
