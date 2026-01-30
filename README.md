@@ -79,7 +79,7 @@ podman-compose restart api-functions
 ### 9. Test the API
 
 ```bash
-curl http://localhost:8080/api/messages
+curl http://localhost:7071/api/messages
 ```
 
 ---
