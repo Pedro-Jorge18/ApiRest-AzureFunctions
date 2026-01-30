@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database
+  postgres-db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: postgres-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - api-network
+
+  # API Azure Functions
+  api-functions:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-functions
+    restart: unless-stopped
+    environment:
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - AzureWebJobsStorage=
+      - FUNCTIONS_WORKER_RUNTIME=node
+    ports:
+      - "8080:80"
+    networks:
+      - api-network
+
+# Volume for PostgreSQL data persistence
+volumes:
+  postgres_data:
+
+# Internal network for container communication
+networks:
+  api-network:
+    driver: bridge
