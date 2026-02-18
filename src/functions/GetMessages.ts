@@ -1,37 +1,25 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 import { initializeDatabase } from "../config/database";
-import { Message } from "../entities/Message";
+import messageService from "../services/messageService";
 
 export async function GetMessages(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log('GetMessages function processing request.');
 
     try {
-        // Initialize database connection
-        const dataSource = await initializeDatabase();
-        const messageRepository = dataSource.getRepository(Message);
+        await initializeDatabase();
 
-        // Fetch all messages
-        const messages = await messageRepository.find();
+        const messages = await messageService.list();
 
         context.log(`Found ${messages.length} messages.`);
 
         if (messages.length === 0) {
-            return {
-                status: 200,
-                jsonBody: { message: 'No messages found in the database.' }
-            };
+            return { status: 200, jsonBody: { message: 'No messages found in the database.' } };
         }
 
-        return {
-            status: 200,
-            jsonBody: messages
-        };
+        return { status: 200, jsonBody: messages };
     } catch (error) {
-        context.error('Error fetching messages:', error);
-        return {
-            status: 500,
-            jsonBody: { error: 'Failed to fetch messages' }
-        };
+        context.log.error?.('Error fetching messages:', error);
+        return { status: 500, jsonBody: { error: 'Failed to fetch messages' } };
     }
 }
 

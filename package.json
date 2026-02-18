@@ -9,8 +9,12 @@
     "clean": "rimraf dist",
     "prestart": "npm run clean && npm run build",
     "start": "func start",
-    "test": "jest",
+    "start:dev": "func start --javascript",
+    "test": "jest --runInBand",
+    "test:single": "jest --runInBand",
     "test:coverage": "jest --coverage",
+    "lint": "eslint --ext .ts src test --fix",
+    "format": "prettier --write \"src/**/*.{ts,js,json,md}\"",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:generate": "npm run typeorm -- migration:generate -d src/config/data-source.ts",
     "migration:create": "npm run typeorm -- migration:create",
@@ -20,6 +24,7 @@
   "dependencies": {
     "@azure/functions": "^4.0.0",
     "dotenv": "^17.2.3",
+    "zod": "^3.21.4",
     "pg": "^8.17.2",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.28"

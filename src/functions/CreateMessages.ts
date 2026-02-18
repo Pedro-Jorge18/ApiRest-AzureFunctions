@@ -1,59 +1,29 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 import { initializeDatabase } from "../config/database";
-import { Message } from "../entities/Message";
-
-interface CreateMessageBody {
-    message_text: string;
-}
+import messageService from "../services/messageService";
+import { validateMessage } from "../utils/validation";
 
 export async function CreateMessage(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log('CreateMessage function processing request.');
 
     try {
-        // Read the request body
-        const body = await request.json() as CreateMessageBody;
+        const body = await request.json();
 
-        // Validate required fields
-        if (!body.message_text || body.message_text.trim() === '') {
-            return {
-                status: 400,
-                jsonBody: { error: 'message is required and cannot be empty.' }
-            };
+        const parsed = validateMessage(body);
+        if (!parsed.success) {
+            return { status: 400, jsonBody: { error: parsed.error.errors.map(e => e.message).join('; ') } };
         }
 
-        // Validate message_text length (max 255 characters as per entity)
-        if (body.message_text.length > 255) {
-            return {
-                status: 400,
-                jsonBody: { error: 'message cannot exceed 255 characters.' }
-            };
-        }
+        await initializeDatabase();
 
-        // Initialize database connection
-        const dataSource = await initializeDatabase();
-
-        const messageRepository = dataSource.getRepository(Message);
-
-        // Create new message
-        const newMessage = messageRepository.create({
-            message_text: body.message_text.trim()
-        });
-
-        // Save to database
-        const savedMessage = await messageRepository.save(newMessage);
+        const savedMessage = await messageService.create(parsed.data.message_text);
 
         context.log(`Message created with ID: ${savedMessage.id}`);
 
-        return {
-            status: 201,
-            jsonBody: savedMessage
-        };
+        return { status: 201, jsonBody: savedMessage };
     } catch (error) {
-        context.error('Error creating message:', error);
-        return {
-            status: 500,
-            jsonBody: { error: 'Failed to create message' }
-        };
+        context.log.error?.('Error creating message:', error);
+        return { status: 500, jsonBody: { error: 'Failed to create message' } };
     }
 }
 
