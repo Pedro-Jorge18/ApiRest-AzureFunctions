@@ -91,8 +91,6 @@ You can now test the API using **Bruno**, **Postman**, or **curl**:
 ```bash
 curl http://localhost:7071/api/messages
 ```
-http://localhost:7071/api/messages
-```
 
 ---
 
