@@ -1,10 +1,18 @@
-import { initializeDatabase } from '../src/config/database';
 import { DataSource } from 'typeorm';
+import { Message } from '../src/entities/Message';
 
-describe('Database Connection', () => {
-    it('should connect to the database successfully', async () => {
-        const dataSource = await initializeDatabase();
-        expect(dataSource.isInitialized).toBe(true);
+describe('Database (in-memory) Connection', () => {
+    it('should initialize an in-memory sqlite database', async () => {
+        const ds = new DataSource({
+            type: 'sqlite',
+            database: ':memory:',
+            synchronize: true,
+            entities: [Message]
+        });
+
+        await ds.initialize();
+        expect(ds.isInitialized).toBe(true);
+        await ds.destroy();
     });
 });
 

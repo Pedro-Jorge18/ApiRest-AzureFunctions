@@ -91,6 +91,8 @@ You can now test the API using **Bruno**, **Postman**, or **curl**:
 ```bash
 curl http://localhost:7071/api/messages
 ```
+http://localhost:7071/api/messages
+```
 
 ---
 
@@ -410,43 +412,36 @@ podman-compose down -v
 ## Database Commands
 
 Install PostgreSQL Client:
-
 ```bash
 sudo apt install postgresql-client  
 ```
 
 Connect to the Database:
-
 ```bash
 psql -h localhost -U <username> -d <databasename>
 ```
 
 List Databases:
-
 ```sql
 \l
 ```
 
 List Tables:
-
 ```sql
 \dt
 ```
 
 View Table Structure:
-
 ```sql
 \d name_of_the_table
 ```
 
 View Table Content:
-
 ```sql
 SELECT * FROM name_of_the_table;
 ```
 
 Exit psql
-
 ```sql
 \q
 ```
