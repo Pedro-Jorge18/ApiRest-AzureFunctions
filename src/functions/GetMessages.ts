@@ -18,7 +18,7 @@ export async function GetMessages(request: HttpRequest, context: InvocationConte
 
         return { status: 200, jsonBody: messages };
     } catch (error) {
-        context.log.error?.('Error fetching messages:', error);
+        context.error('Error fetching messages:', error);
         return { status: 500, jsonBody: { error: 'Failed to fetch messages' } };
     }
 }

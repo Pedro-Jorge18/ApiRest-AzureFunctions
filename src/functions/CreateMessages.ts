@@ -22,7 +22,7 @@ export async function CreateMessage(request: HttpRequest, context: InvocationCon
 
         return { status: 201, jsonBody: savedMessage };
     } catch (error) {
-        context.log.error?.('Error creating message:', error);
+        context.error('Error creating message:', error);
         return { status: 500, jsonBody: { error: 'Failed to create message' } };
     }
 }

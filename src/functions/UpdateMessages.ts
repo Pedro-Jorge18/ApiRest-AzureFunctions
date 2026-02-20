@@ -31,7 +31,7 @@ export async function UpdateMessage(request: HttpRequest, context: InvocationCon
 
         return { status: 200, jsonBody: updated };
     } catch (error) {
-        context.log.error?.('Error updating message:', error);
+        context.error('Error updating message:', error);
         return { status: 500, jsonBody: { error: 'Failed to update message' } };
     }
 }

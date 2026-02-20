@@ -23,7 +23,7 @@ export async function GetMessageById(request: HttpRequest, context: InvocationCo
 
         return { status: 200, jsonBody: message };
     } catch (error) {
-        context.log.error?.('Error fetching message:', error);
+        context.error('Error fetching message:', error);
         return { status: 500, jsonBody: { error: 'Failed to fetch message' } };
     }
 }
