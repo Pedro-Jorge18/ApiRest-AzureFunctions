@@ -13,10 +13,16 @@ export async function GetMessages(request: HttpRequest, context: InvocationConte
         context.log(`Found ${messages.length} messages.`);
 
         if (messages.length === 0) {
-            return { status: 200, jsonBody: { message: 'No messages found in the database.' } };
+            return {
+                status: 200,
+                jsonBody: { message: 'No messages found in the database.' }
+            };
         }
 
-        return { status: 200, jsonBody: messages };
+        return {
+            status: 200,
+            jsonBody: messages
+        };
     } catch (error) {
         context.error('Error fetching messages:', error);
         return { status: 500, jsonBody: { error: 'Failed to fetch messages' } };

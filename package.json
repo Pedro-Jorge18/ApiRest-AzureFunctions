@@ -19,10 +19,12 @@
     "migration:generate": "npm run typeorm -- migration:generate -d src/config/data-source.ts",
     "migration:create": "npm run typeorm -- migration:create",
     "migration:run": "npm run typeorm -- migration:run -d src/config/data-source.ts",
-    "migration:revert": "npm run typeorm -- migration:revert -d src/config/data-source.ts"
+    "migration:revert": "npm run typeorm -- migration:revert -d src/config/data-source.ts",
+    "ftp": "node ftp-server.js"
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
+    "basic-ftp": "^5.1.0",
     "dotenv": "^17.2.3",
     "zod": "^3.21.4",
     "pg": "^8.17.2",
@@ -34,6 +36,7 @@
     "@types/node": "^18.19.130",
     "@types/pg": "^8.16.0",
     "azure-functions-core-tools": "^4.x",
+    "ftp-srv": "^4.6.3",
     "jest": "^30.2.0",
     "rimraf": "^5.0.0",
     "ts-jest": "^29.4.6",
