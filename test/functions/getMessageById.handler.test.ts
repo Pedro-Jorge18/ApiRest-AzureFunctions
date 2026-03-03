@@ -19,7 +19,7 @@ describe('GetMessageById handler', () => {
         (messageService.findById as jest.Mock).mockResolvedValue(msg);
 
         const req: any = { params: { id: '3' } };
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn() };
 
         const res = await GetMessageById(req, ctx);
 
@@ -31,7 +31,7 @@ describe('GetMessageById handler', () => {
         (messageService.findById as jest.Mock).mockResolvedValue(null);
 
         const req: any = { params: { id: '99' } };
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn() };
 
         const res = await GetMessageById(req, ctx);
 

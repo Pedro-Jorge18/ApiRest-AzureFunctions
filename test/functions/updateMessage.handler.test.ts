@@ -19,7 +19,7 @@ describe('UpdateMessage handler (PATCH)', () => {
         (messageService.update as jest.Mock).mockResolvedValue(updated);
 
         const req: any = { params: { id: '4' }, json: async () => ({ message_text: 'updated' }) };
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn() };
 
         const res = await UpdateMessage(req, ctx);
 
@@ -31,7 +31,7 @@ describe('UpdateMessage handler (PATCH)', () => {
         (messageService.update as jest.Mock).mockResolvedValue(null);
 
         const req: any = { params: { id: '99' }, json: async () => ({ message_text: 'x' }) };
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn() };
 
         const res = await UpdateMessage(req, ctx);
 

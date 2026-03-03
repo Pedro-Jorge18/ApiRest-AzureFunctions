@@ -12,6 +12,9 @@ What I changed
 - Updated `test/database.test.ts` to use an in-memory SQLite database for unit tests so tests do not require a running Postgres instance.
 - Added a basic GitHub Actions CI workflow (`.github/workflows/ci.yml`) that installs deps, builds and runs tests.
 - Added `zod` dependency and useful npm scripts to `package.json` (`lint`, `format`, `start:dev`).
+- Fixed function handler tests to mock `InvocationContext` logging methods (`log`, `error`) as functions.
+- Fixed a strict nullability assertion in `test/services/messageService.test.ts`.
+- Added `sqlite3` as dev dependency and simplified the sqlite in-memory test to avoid Postgres-specific entity type mismatch.
 
 How to use
 
