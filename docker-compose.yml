@@ -37,9 +37,28 @@ services:
     networks:
       - api-network
 
+  # FTP Server (local testing)
+  ftp-server:
+    image: docker.io/stilliard/pure-ftpd:latest
+    container_name: ftp-server
+    restart: unless-stopped
+    environment:
+      PUBLICHOST: localhost
+      FTP_USER_NAME: ftpuser
+      FTP_USER_PASS: ftppass123
+      FTP_USER_HOME: /home/ftpuser
+    ports:
+      - "2121:21"
+      - "30000-30009:30000-30009"
+    volumes:
+      - ftp_data:/home/ftpuser
+    networks:
+      - api-network
+
 # Volume for PostgreSQL data persistence
 volumes:
   postgres_data:
+  ftp_data:
 
 # Internal network for container communication
 networks:

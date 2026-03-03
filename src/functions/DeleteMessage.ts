@@ -1,46 +1,29 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 import { initializeDatabase } from "../config/database";
-import { Message } from "../entities/Message";
+import { validateId } from "../utils/validation";
+import messageService from "../services/messageService";
 
 export async function DeleteMessage(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log('DeleteMessage function processing request.');
 
     try {
-        // Extract the ID from the URL
-        const id = parseInt(request.params.id, 10);
-
-        // Validate if the ID is a valid number
-        if (isNaN(id)) {
-            return {
-                status: 400,
-                jsonBody: { error: 'Invalid ID format. ID must be a number.' }
-            };
+        const idRaw = request.params.id;
+        const idParse = validateId(idRaw);
+        if (!idParse.success) {
+            return { status: 400, jsonBody: { error: idParse.error.errors.map(e => e.message).join('; ') } };
         }
+        const id = idParse.data;
 
-        // Initialize database connection
-        const dataSource = await initializeDatabase();
-        const messageRepository = dataSource.getRepository(Message);
+        await initializeDatabase();
 
-        // Find the existing message
-        const existingMessage = await messageRepository.findOneBy({ id });
-
-        // Check if the message exists
-        if (!existingMessage) {
-            return {
-                status: 404,
-                jsonBody: { error: `Message with ID ${id} not found.` }
-            };
+        const removed = await messageService.remove(id);
+        if (!removed) {
+            return { status: 404, jsonBody: { error: `Message with ID ${id} not found.` } };
         }
-
-        // Delete the message
-        await messageRepository.remove(existingMessage);
 
         context.log(`Message with ID ${id} deleted successfully.`);
 
-        return {
-            status: 200,
-            jsonBody: { message: `Message with ID ${id} deleted successfully.` }
-        };
+        return { status: 200, jsonBody: { message: `Message with ID ${id} deleted successfully.` } };
     } catch (error) {
         context.error('Error deleting message:', error);
         return {
