@@ -30,6 +30,9 @@ describe('messageService.update', () => {
         expect(repoMock.findOneBy).toHaveBeenCalledWith({ id: 1 });
         expect(repoMock.save).toHaveBeenCalled();
         expect(result).not.toBeNull();
+        if (!result) {
+            throw new Error('Expected updated message, got null');
+        }
         expect(result.message_text).toBe('new');
     });
 
