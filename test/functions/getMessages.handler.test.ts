@@ -19,7 +19,7 @@ describe('GetMessages handler', () => {
         (messageService.list as jest.Mock).mockResolvedValue(msgs);
 
         const req: any = {};
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn() };
 
         const res = await GetMessages(req, ctx);
 
@@ -31,7 +31,7 @@ describe('GetMessages handler', () => {
         (messageService.list as jest.Mock).mockResolvedValue([]);
 
         const req: any = {};
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn() };
 
         const res = await GetMessages(req, ctx);
 

@@ -1,5 +1,4 @@
 import { DataSource } from 'typeorm';
-import { Message } from '../src/entities/Message';
 
 describe('Database (in-memory) Connection', () => {
     it('should initialize an in-memory sqlite database', async () => {
@@ -7,7 +6,7 @@ describe('Database (in-memory) Connection', () => {
             type: 'sqlite',
             database: ':memory:',
             synchronize: true,
-            entities: [Message]
+            entities: []
         });
 
         await ds.initialize();

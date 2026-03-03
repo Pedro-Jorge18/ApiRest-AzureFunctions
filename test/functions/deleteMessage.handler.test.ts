@@ -18,7 +18,7 @@ describe('DeleteMessage handler', () => {
         (messageService.remove as jest.Mock).mockResolvedValue(true);
 
         const req: any = { params: { id: '2' } };
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn() };
 
         const res = await DeleteMessage(req, ctx);
 
@@ -30,7 +30,7 @@ describe('DeleteMessage handler', () => {
         (messageService.remove as jest.Mock).mockResolvedValue(false);
 
         const req: any = { params: { id: '123' } };
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn() };
 
         const res = await DeleteMessage(req, ctx);
 

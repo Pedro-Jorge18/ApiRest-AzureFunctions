@@ -22,7 +22,7 @@ describe('CreateMessage handler', () => {
 
     it('returns 201 and saved message for valid input', async () => {
         const req: any = { json: async () => ({ message_text: 'hey' }) };
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn(), warn: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn(), warn: jest.fn() };
 
         const res = await CreateMessage(req, ctx);
 
@@ -33,7 +33,7 @@ describe('CreateMessage handler', () => {
 
     it('returns 400 for invalid input', async () => {
         const req: any = { json: async () => ({ message_text: '' }) };
-        const ctx: any = { log: { info: jest.fn(), error: jest.fn(), warn: jest.fn() } };
+        const ctx: any = { log: jest.fn(), error: jest.fn(), warn: jest.fn() };
 
         const res = await CreateMessage(req, ctx);
 
